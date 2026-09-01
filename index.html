@@ -1,0 +1,3677 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ReBayan — Pixel Art</title>
+
+    <!-- Favicon (pixel-style) -->
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%23173a2e'/%3E%3Crect x='8' y='8' width='16' height='16' fill='none' stroke='%234ca771' stroke-width='4'/%3E%3Crect x='14' y='4' width='4' height='24' fill='%234ca771'/%3E%3Crect x='4' y='14' width='24' height='4' fill='%234ca771'/%3E%3C/svg%3E"
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* ── Pixel Art Reset ── */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        image-rendering: pixelated;
+      }
+
+      :root {
+        --forest: #173a2e;
+        --forest-dark: #0e241c;
+        --green: #4ca771;
+        --green-light: #b8e0c9;
+        --cream: #f5f0e8;
+        --cream-dark: #e8dfd0;
+        --surface: #e0d6c4;
+        --charcoal: #2a2a24;
+        --charcoal-60: #5a5a52;
+        --charcoal-40: #8a8a80;
+        --ochre: #b8763a;
+        --ochre-light: #f0d5b0;
+        --line: #c8bca8;
+        --white: #fcfcf8;
+        --shadow: 4px 4px 0 rgba(23, 58, 46, 0.2);
+        --shadow-sm: 2px 2px 0 rgba(23, 58, 46, 0.15);
+        --border-px: 3px;
+        --radius: 0px;
+        --font: "Press Start 2P", monospace;
+        --transition: all 0.1s steps(2);
+      }
+
+      html {
+        scroll-behavior: smooth;
+        background: var(--cream);
+      }
+
+      body {
+        font-family: var(--font);
+        background: var(--cream);
+        color: var(--charcoal);
+        -webkit-font-smoothing: none;
+        font-size: 11px;
+        line-height: 1.6;
+        letter-spacing: 0.02em;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      .display {
+        font-family: var(--font);
+        font-weight: 400;
+        letter-spacing: 0.04em;
+        margin: 0;
+        color: var(--forest-dark);
+        text-transform: uppercase;
+        font-size: 14px;
+        line-height: 1.4;
+      }
+
+      p {
+        margin: 0;
+        line-height: 1.8;
+        font-size: 10px;
+      }
+
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      button {
+        font-family: var(--font);
+        cursor: pointer;
+        border: none;
+        background: none;
+        font-size: 10px;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      ::selection {
+        background: var(--green);
+        color: var(--white);
+      }
+
+      /* ── Pixel scrollbar ── */
+      ::-webkit-scrollbar {
+        width: 12px;
+        height: 12px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--cream-dark);
+        border: 2px solid var(--charcoal);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--forest);
+        border: 2px solid var(--charcoal);
+        border-radius: 0;
+      }
+
+      /* ── Shell / Nav ── */
+      .app-shell {
+        display: flex;
+        min-height: 100vh;
+      }
+
+      .railnav {
+        width: 200px;
+        flex-shrink: 0;
+        background: var(--forest-dark);
+        color: var(--cream);
+        padding: 16px 12px;
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        overflow-y: auto;
+        border-right: 4px solid var(--charcoal);
+        image-rendering: pixelated;
+      }
+
+      .railnav .brand {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 0 4px 16px;
+        border-bottom: 4px solid var(--green);
+        margin-bottom: 12px;
+      }
+
+      .mark {
+        width: 28px;
+        height: 28px;
+        background: var(--green);
+        position: relative;
+        flex-shrink: 0;
+        border: 2px solid var(--charcoal);
+        image-rendering: pixelated;
+      }
+      .mark::after {
+        content: "";
+        position: absolute;
+        inset: 6px;
+        border: 2px solid var(--forest-dark);
+        border-right-color: transparent;
+        transform: rotate(45deg);
+      }
+      .railnav .brand span {
+        font-family: var(--font);
+        font-size: 14px;
+        color: var(--white);
+        letter-spacing: 0.1em;
+      }
+
+      .rail-group {
+        margin-bottom: 16px;
+      }
+      .rail-label {
+        font-size: 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: #ffffff66;
+        padding: 0 6px;
+        margin-bottom: 6px;
+        display: block;
+        border-bottom: 2px solid #ffffff22;
+        padding-bottom: 4px;
+      }
+      .rail-btn {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        width: 100%;
+        text-align: left;
+        padding: 7px 8px;
+        font-size: 9px;
+        color: #d0c8b8;
+        margin-bottom: 2px;
+        border: 2px solid transparent;
+        transition: var(--transition);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      .rail-btn:hover {
+        background: #ffffff15;
+        color: #fff;
+        border-color: #ffffff30;
+      }
+      .rail-btn.active {
+        background: var(--green);
+        color: var(--forest-dark);
+        border-color: var(--charcoal);
+      }
+      .rail-btn .dot {
+        width: 6px;
+        height: 6px;
+        background: currentColor;
+        opacity: 0.6;
+        flex-shrink: 0;
+        border: 1px solid currentColor;
+        image-rendering: pixelated;
+      }
+      .rail-btn.active .dot {
+        opacity: 1;
+        background: var(--forest-dark);
+        border-color: var(--forest-dark);
+      }
+
+      .stage {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .screen {
+        display: none;
+        animation: pixelFade 0.2s steps(3) forwards;
+      }
+      .screen.active {
+        display: block;
+      }
+
+      @keyframes pixelFade {
+        0% {
+          opacity: 0;
+          transform: translateY(4px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* ── Pixel Shared ── */
+      .top-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 20px;
+        background: var(--cream);
+        border-bottom: 4px solid var(--charcoal);
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        image-rendering: pixelated;
+      }
+
+      .top-header .brandmark {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .top-header .brandmark span {
+        font-family: var(--font);
+        font-size: 13px;
+        color: var(--forest-dark);
+        letter-spacing: 0.1em;
+      }
+
+      .top-nav {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+      }
+      .top-nav a {
+        font-size: 9px;
+        text-transform: uppercase;
+        color: var(--charcoal-60);
+        border-bottom: 2px solid transparent;
+        padding-bottom: 2px;
+        transition: var(--transition);
+        letter-spacing: 0.06em;
+      }
+      .top-nav a:hover {
+        color: var(--forest-dark);
+        border-bottom-color: var(--forest);
+      }
+
+      .top-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .icon-btn {
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--charcoal);
+        position: relative;
+        font-size: 14px;
+        border: 2px solid transparent;
+        transition: var(--transition);
+      }
+      .icon-btn:hover {
+        background: var(--cream-dark);
+        border-color: var(--line);
+      }
+
+      .badge-dot {
+        position: absolute;
+        top: 4px;
+        right: 4px;
+        width: 8px;
+        height: 8px;
+        background: var(--ochre);
+        border: 2px solid var(--cream);
+      }
+
+      .avatar {
+        width: 32px;
+        height: 32px;
+        background: repeating-conic-gradient(
+            var(--green) 0% 25%,
+            var(--forest) 0% 50%
+          )
+          0 0 / 8px 8px;
+        border: 2px solid var(--charcoal);
+        flex-shrink: 0;
+        image-rendering: pixelated;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 8px 16px;
+        font-size: 10px;
+        text-transform: uppercase;
+        border: 3px solid var(--charcoal);
+        transition: var(--transition);
+        letter-spacing: 0.06em;
+        image-rendering: pixelated;
+      }
+      .btn:active {
+        transform: scale(0.96);
+      }
+      .btn-primary {
+        background: var(--forest);
+        color: var(--white);
+        box-shadow: var(--shadow);
+      }
+      .btn-primary:hover {
+        background: var(--forest-dark);
+        transform: translate(-1px, -1px);
+        box-shadow: 5px 5px 0 rgba(23, 58, 46, 0.25);
+      }
+      .btn-accent {
+        background: var(--green);
+        color: var(--forest-dark);
+      }
+      .btn-accent:hover {
+        background: #3d8f5e;
+        transform: translate(-1px, -1px);
+      }
+      .btn-outline {
+        background: transparent;
+        border: 3px solid var(--forest);
+        color: var(--forest);
+      }
+      .btn-outline:hover {
+        background: var(--forest);
+        color: var(--white);
+      }
+      .btn-ghost {
+        background: var(--surface);
+        color: var(--charcoal);
+        border-color: var(--line);
+      }
+      .btn-ghost:hover {
+        background: var(--line);
+      }
+      .btn-sm {
+        padding: 5px 12px;
+        font-size: 8px;
+      }
+      .btn-block {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 3px 10px;
+        font-size: 8px;
+        text-transform: uppercase;
+        border: 2px solid var(--charcoal);
+        letter-spacing: 0.04em;
+      }
+      .tag-green {
+        background: var(--green-light);
+        color: var(--forest);
+      }
+      .tag-ochre {
+        background: var(--ochre-light);
+        color: #6a3a1a;
+      }
+      .tag-neutral {
+        background: var(--surface);
+        color: var(--charcoal-60);
+      }
+
+      .verified {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        color: var(--forest);
+        font-size: 9px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      .verified svg {
+        width: 12px;
+        height: 12px;
+      }
+
+      .section {
+        padding: 24px 20px;
+      }
+      .section-head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        margin-bottom: 14px;
+        border-bottom: 4px solid var(--line);
+        padding-bottom: 8px;
+      }
+      .section-head h2 {
+        font-size: 13px;
+      }
+      .section-head a {
+        font-size: 8px;
+        text-transform: uppercase;
+        color: var(--forest);
+        border: 2px solid transparent;
+        padding: 2px 6px;
+        transition: var(--transition);
+      }
+      .section-head a:hover {
+        border-color: var(--forest);
+      }
+
+      .eyebrow-line {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--forest);
+        font-size: 9px;
+        text-transform: uppercase;
+        margin-bottom: 8px;
+        letter-spacing: 0.06em;
+      }
+      .stitch {
+        flex: 1;
+        height: 2px;
+        background: repeating-linear-gradient(
+          to right,
+          var(--forest) 0 6px,
+          transparent 6px 10px
+        );
+        opacity: 0.5;
+      }
+
+      .card {
+        background: var(--white);
+        border: 3px solid var(--charcoal);
+        transition: var(--transition);
+        image-rendering: pixelated;
+      }
+      .card:hover {
+        transform: translate(-1px, -1px);
+        box-shadow: var(--shadow);
+      }
+
+      .grid {
+        display: grid;
+        gap: 16px;
+      }
+      .grid-4 {
+        grid-template-columns: repeat(4, 1fr);
+      }
+      .grid-3 {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .grid-2 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      /* ── Pixel Product Card ── */
+      .pcard {
+        background: var(--white);
+        border: 3px solid var(--charcoal);
+        overflow: hidden;
+        transition: var(--transition);
+        position: relative;
+        image-rendering: pixelated;
+      }
+      .pcard:hover {
+        transform: translate(-2px, -2px);
+        box-shadow: var(--shadow);
+      }
+      .pcard .img {
+        aspect-ratio: 1/0.92;
+        background-size: cover;
+        background-position: center;
+        position: relative;
+        background-color: #d8cebc;
+        border-bottom: 3px solid var(--charcoal);
+      }
+      .wishlist {
+        position: absolute;
+        top: 6px;
+        right: 6px;
+        width: 28px;
+        height: 28px;
+        background: var(--white);
+        border: 2px solid var(--charcoal);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        transition: var(--transition);
+        cursor: pointer;
+      }
+      .wishlist:hover {
+        background: var(--cream);
+      }
+      .wishlist.active {
+        background: #ffdddd;
+        border-color: #cc4444;
+      }
+      .pcard .body {
+        padding: 10px 12px 14px;
+      }
+      .pcard .rowtop {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 6px;
+        margin-bottom: 4px;
+      }
+      .pcard h4 {
+        font-size: 10px;
+        font-family: var(--font);
+        color: var(--charcoal);
+        text-transform: uppercase;
+      }
+      .pcard .price {
+        font-family: var(--font);
+        color: var(--forest-dark);
+        font-size: 11px;
+        white-space: nowrap;
+      }
+      .pcard .meta {
+        font-size: 8px;
+        color: var(--charcoal-60);
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+      }
+      .material-strip {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        background: var(--green-light);
+        border: 2px solid var(--forest);
+        padding: 5px 8px;
+        font-size: 8px;
+        color: var(--forest);
+        text-transform: uppercase;
+      }
+      .material-strip svg {
+        width: 12px;
+        height: 12px;
+        flex-shrink: 0;
+      }
+      .stars {
+        color: var(--ochre);
+        font-size: 10px;
+        letter-spacing: 2px;
+      }
+
+      /* ── Pixel Hero ── */
+      .hero {
+        padding: 32px 20px 24px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+        align-items: center;
+      }
+      .hero-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: var(--surface);
+        border: 3px solid var(--charcoal);
+        padding: 5px 12px 5px 6px;
+        margin-bottom: 12px;
+      }
+      .hero-tag .swatch {
+        width: 18px;
+        height: 18px;
+        background: var(--ochre);
+        border: 2px solid var(--charcoal);
+      }
+      .hero-tag span {
+        font-size: 8px;
+        text-transform: uppercase;
+        color: var(--charcoal-60);
+        letter-spacing: 0.04em;
+      }
+      .hero h1 {
+        font-size: 28px;
+        line-height: 1.1;
+        color: var(--forest-dark);
+        max-width: 9em;
+        letter-spacing: 0.06em;
+      }
+      .hero p.lede {
+        font-size: 10px;
+        color: var(--charcoal-60);
+        line-height: 1.8;
+        margin: 12px 0 16px;
+        max-width: 34em;
+      }
+      .hero-ctas {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 16px;
+        flex-wrap: wrap;
+      }
+      .hero-stats {
+        display: flex;
+        gap: 16px;
+      }
+      .hero-stats div {
+        border-left: 3px solid var(--line);
+        padding-left: 10px;
+      }
+      .hero-stats .n {
+        font-family: var(--font);
+        font-size: 14px;
+        color: var(--forest-dark);
+      }
+      .hero-stats .l {
+        font-size: 7px;
+        color: var(--charcoal-40);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      .hero-visual {
+        position: relative;
+        height: 380px;
+      }
+      .floatcard {
+        position: absolute;
+        border: 4px solid var(--charcoal);
+        background: #d8cebc;
+        box-shadow: var(--shadow);
+        image-rendering: pixelated;
+      }
+
+      /* ── Pixel Category ── */
+      .cat-row {
+        display: flex;
+        gap: 12px;
+        overflow-x: auto;
+        padding-bottom: 4px;
+      }
+      .cat-pill {
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        width: 100px;
+      }
+      .cat-pill .circ {
+        width: 68px;
+        height: 68px;
+        background: var(--surface);
+        border: 3px solid var(--charcoal);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--forest);
+        font-size: 24px;
+        transition: var(--transition);
+      }
+      .cat-pill:hover .circ {
+        background: var(--green-light);
+        transform: scale(0.96);
+      }
+      .cat-pill span {
+        font-size: 8px;
+        text-align: center;
+        text-transform: uppercase;
+      }
+
+      /* ── Pixel Filters ── */
+      .explore-layout {
+        display: grid;
+        grid-template-columns: 220px 1fr;
+        gap: 16px;
+        padding: 0 20px 24px;
+      }
+      .filter-panel {
+        background: var(--white);
+        border: 3px solid var(--charcoal);
+        padding: 14px;
+        align-self: start;
+        position: sticky;
+        top: 80px;
+      }
+      .filter-group {
+        padding: 10px 0;
+        border-bottom: 3px solid var(--line);
+      }
+      .filter-group:last-child {
+        border-bottom: none;
+      }
+      .filter-group h5 {
+        font-size: 9px;
+        text-transform: uppercase;
+        margin-bottom: 8px;
+        color: var(--forest-dark);
+      }
+      .check-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 8px;
+        color: var(--charcoal-60);
+        margin-bottom: 6px;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: var(--transition);
+      }
+      .check-row:hover {
+        color: var(--charcoal);
+      }
+      .checkbox {
+        width: 16px;
+        height: 16px;
+        border: 3px solid var(--line);
+        flex-shrink: 0;
+        transition: var(--transition);
+      }
+      .checkbox.on {
+        background: var(--forest);
+        border-color: var(--charcoal);
+        position: relative;
+      }
+      .checkbox.on::after {
+        content: "";
+        position: absolute;
+        left: 3px;
+        top: 0px;
+        width: 4px;
+        height: 8px;
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        transform: rotate(40deg);
+      }
+      .pricebar {
+        height: 8px;
+        background: var(--surface);
+        border: 2px solid var(--charcoal);
+        position: relative;
+        margin: 10px 0 6px;
+      }
+      .pricebar .fill {
+        position: absolute;
+        left: 15%;
+        right: 35%;
+        top: 0;
+        bottom: 0;
+        background: var(--green);
+      }
+      .pricebar .knob {
+        position: absolute;
+        top: 50%;
+        width: 14px;
+        height: 14px;
+        background: var(--white);
+        border: 3px solid var(--forest);
+        transform: translate(-50%, -50%);
+        cursor: pointer;
+      }
+
+      .searchbar {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--white);
+        border: 3px solid var(--charcoal);
+        padding: 8px 12px;
+        flex: 1;
+      }
+      .searchbar input {
+        border: none;
+        outline: none;
+        background: none;
+        font-size: 9px;
+        flex: 1;
+        font-family: var(--font);
+        color: var(--charcoal);
+        text-transform: uppercase;
+      }
+      .sort-select {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 12px;
+        border: 3px solid var(--charcoal);
+        font-size: 8px;
+        text-transform: uppercase;
+        background: var(--white);
+        cursor: pointer;
+        transition: var(--transition);
+      }
+      .sort-select:hover {
+        background: var(--cream-dark);
+      }
+      .trans-pills {
+        display: flex;
+        gap: 6px;
+        margin: 10px 0 14px;
+        flex-wrap: wrap;
+      }
+      .trans-pill {
+        padding: 5px 12px;
+        font-size: 8px;
+        text-transform: uppercase;
+        border: 3px solid var(--line);
+        color: var(--charcoal-60);
+        cursor: pointer;
+        transition: var(--transition);
+      }
+      .trans-pill:hover {
+        border-color: var(--charcoal-40);
+        color: var(--charcoal);
+      }
+      .trans-pill.on {
+        background: var(--forest);
+        color: var(--white);
+        border-color: var(--charcoal);
+      }
+
+      /* ── Pixel Product Detail ── */
+      .pd-wrap {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+        padding: 16px 20px 24px;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      .pd-main-img {
+        aspect-ratio: 1/0.92;
+        border: 4px solid var(--charcoal);
+        background-size: cover;
+        background-position: center;
+        position: relative;
+        overflow: hidden;
+        background-color: #d8cebc;
+      }
+      .zoom-btn {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        width: 36px;
+        height: 36px;
+        background: var(--white);
+        border: 3px solid var(--charcoal);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        transition: var(--transition);
+      }
+      .zoom-btn:hover {
+        background: var(--cream);
+      }
+      .thumb-row {
+        display: flex;
+        gap: 8px;
+        margin-top: 10px;
+      }
+      .thumb {
+        width: 64px;
+        height: 64px;
+        border: 3px solid transparent;
+        cursor: pointer;
+        background-color: #d8cebc;
+        transition: var(--transition);
+      }
+      .thumb.on {
+        border-color: var(--forest);
+      }
+      .pd-price-row {
+        display: flex;
+        align-items: baseline;
+        gap: 10px;
+        margin: 8px 0 12px;
+      }
+      .pd-price {
+        font-family: var(--font);
+        font-size: 24px;
+        color: var(--forest-dark);
+      }
+      .pd-oldprice {
+        font-size: 11px;
+        color: var(--charcoal-40);
+        text-decoration: line-through;
+      }
+      .info-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 9px;
+        color: var(--charcoal-60);
+        padding: 8px 0;
+        border-bottom: 2px solid var(--line);
+        text-transform: uppercase;
+      }
+      .info-row svg {
+        width: 14px;
+        height: 14px;
+        color: var(--forest);
+        flex-shrink: 0;
+      }
+      .pd-ctas {
+        display: flex;
+        gap: 8px;
+        margin-top: 14px;
+      }
+      .pd-ctas .btn {
+        flex: 1;
+      }
+      .seller-mini {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: var(--surface);
+        border: 3px solid var(--charcoal);
+        padding: 10px;
+        margin-top: 14px;
+      }
+      .seller-mini .info {
+        flex: 1;
+      }
+      .seller-mini h5 {
+        font-size: 9px;
+        text-transform: uppercase;
+      }
+      .seller-mini .sub {
+        font-size: 7px;
+        color: var(--charcoal-40);
+        text-transform: uppercase;
+      }
+      .divider-stitch {
+        height: 2px;
+        background: repeating-linear-gradient(
+          to right,
+          var(--line) 0 6px,
+          transparent 6px 10px
+        );
+        margin: 14px 0;
+      }
+
+      /* ── Pixel Material Story ── */
+      .material-story {
+        border: 4px dashed var(--forest);
+        background: linear-gradient(
+          180deg,
+          var(--white) 0%,
+          var(--green-light) 200%
+        );
+        padding: 16px;
+        position: relative;
+      }
+      .material-story::before {
+        content: "";
+        position: absolute;
+        inset: 6px;
+        border: 2px solid #1a3d2f33;
+        pointer-events: none;
+      }
+      .ms-head {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 12px;
+      }
+      .ms-icon {
+        width: 32px;
+        height: 32px;
+        background: var(--forest);
+        border: 2px solid var(--charcoal);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--green-light);
+        flex-shrink: 0;
+        font-size: 14px;
+      }
+      .ms-title {
+        font-family: var(--font);
+        font-size: 11px;
+        color: var(--forest-dark);
+        text-transform: uppercase;
+      }
+      .ms-sub {
+        font-size: 7px;
+        color: var(--charcoal-40);
+        text-transform: uppercase;
+      }
+      .ms-materials {
+        list-style: none;
+        margin: 0 0 12px;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .ms-materials li {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 9px;
+        text-transform: uppercase;
+        color: var(--charcoal);
+      }
+      .ms-materials li .chip {
+        width: 8px;
+        height: 8px;
+        background: var(--green);
+        border: 2px solid var(--charcoal);
+        flex-shrink: 0;
+      }
+      .ms-block .label {
+        font-size: 7px;
+        text-transform: uppercase;
+        color: var(--forest);
+        margin-bottom: 2px;
+        letter-spacing: 0.06em;
+      }
+      .ms-block .txt {
+        font-size: 9px;
+        color: var(--charcoal-60);
+        line-height: 1.6;
+      }
+      .ms-impact {
+        margin-top: 12px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: var(--forest);
+        border: 3px solid var(--charcoal);
+        color: var(--white);
+        padding: 10px 14px;
+      }
+      .ms-impact .num {
+        font-family: var(--font);
+        font-size: 18px;
+        color: var(--green-light);
+      }
+      .ms-impact .txt2 {
+        font-size: 8px;
+        color: #ffffffcc;
+        text-transform: uppercase;
+      }
+
+      /* ── Pixel Store ── */
+      .store-hero {
+        background: var(--forest-dark);
+        padding: 20px 20px 0;
+        border-bottom: 4px solid var(--charcoal);
+      }
+      .store-cover {
+        height: 140px;
+        border: 4px solid var(--charcoal);
+        background: repeating-linear-gradient(
+          45deg,
+          #2c5c47 0 8px,
+          #173a2e 8px 16px
+        );
+      }
+      .store-header-row {
+        display: flex;
+        align-items: flex-end;
+        gap: 16px;
+        padding: 0 12px;
+        transform: translateY(40%);
+      }
+      .store-avatar {
+        width: 80px;
+        height: 80px;
+        border: 4px solid var(--cream);
+        background: repeating-conic-gradient(
+            var(--ochre) 0% 25%,
+            #8a4f1f 0% 50%
+          )
+          0 0 / 10px 10px;
+        flex-shrink: 0;
+      }
+      .store-info {
+        flex: 1;
+        padding-bottom: 10px;
+      }
+      .store-info h2 {
+        font-size: 16px;
+        color: var(--white);
+      }
+      .store-info .meta {
+        color: #ffffffb0;
+        font-size: 8px;
+        margin-top: 4px;
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        flex-wrap: wrap;
+        text-transform: uppercase;
+      }
+      .store-ctas {
+        display: flex;
+        gap: 8px;
+        padding-bottom: 12px;
+      }
+      .store-tabs {
+        display: flex;
+        gap: 16px;
+        padding: 0 20px;
+        margin-top: 60px;
+        border-bottom: 4px solid var(--line);
+      }
+      .store-tab {
+        padding: 10px 4px;
+        font-size: 9px;
+        text-transform: uppercase;
+        color: var(--charcoal-40);
+        border-bottom: 4px solid transparent;
+        cursor: pointer;
+        transition: var(--transition);
+      }
+      .store-tab:hover {
+        color: var(--charcoal);
+      }
+      .store-tab.on {
+        color: var(--forest-dark);
+        border-color: var(--forest);
+      }
+      .impact-strip {
+        display: flex;
+        gap: 12px;
+        padding: 16px 20px;
+      }
+      .impact-chip {
+        flex: 1;
+        background: var(--white);
+        border: 3px solid var(--charcoal);
+        padding: 14px;
+        text-align: center;
+      }
+      .impact-chip .n {
+        font-family: var(--font);
+        font-size: 18px;
+        color: var(--forest-dark);
+      }
+      .impact-chip .l {
+        font-size: 7px;
+        color: var(--charcoal-40);
+        margin-top: 4px;
+        text-transform: uppercase;
+      }
+
+      /* ── Pixel Chat ── */
+      .chat-layout {
+        display: grid;
+        grid-template-columns: 240px 1fr 240px;
+        height: calc(100vh - 0px);
+      }
+      .chat-list {
+        border-right: 4px solid var(--charcoal);
+        overflow-y: auto;
+        background: var(--cream);
+      }
+      .chat-list-item {
+        display: flex;
+        gap: 10px;
+        padding: 12px 14px;
+        border-bottom: 3px solid var(--line);
+        cursor: pointer;
+        transition: var(--transition);
+      }
+      .chat-list-item:hover {
+        background: var(--surface);
+      }
+      .chat-list-item.active {
+        background: var(--green-light);
+      }
+      .chat-list-item .nm {
+        font-size: 9px;
+        text-transform: uppercase;
+      }
+      .chat-list-item .last {
+        font-size: 7px;
+        color: var(--charcoal-40);
+        margin-top: 2px;
+      }
+      .chat-thread {
+        display: flex;
+        flex-direction: column;
+        background: var(--white);
+      }
+      .chat-topbar {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 16px;
+        border-bottom: 4px solid var(--charcoal);
+      }
+      .chat-body {
+        flex: 1;
+        padding: 16px 18px;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        background: var(--cream);
+      }
+      .bubble-row {
+        display: flex;
+      }
+      .bubble-row.me {
+        justify-content: flex-end;
+      }
+      .bubble {
+        max-width: 64%;
+        padding: 8px 12px;
+        border: 3px solid var(--charcoal);
+        font-size: 9px;
+        line-height: 1.6;
+        text-transform: uppercase;
+      }
+      .bubble.them {
+        background: var(--surface);
+      }
+      .bubble.me {
+        background: var(--forest);
+        color: var(--white);
+      }
+      .offer-card {
+        max-width: 78%;
+        background: var(--white);
+        border: 4px solid var(--forest);
+        padding: 12px;
+      }
+      .offer-card .oc-label {
+        font-size: 7px;
+        text-transform: uppercase;
+        color: var(--forest);
+        display: flex;
+        justify-content: space-between;
+      }
+      .offer-card .oc-amount {
+        font-family: var(--font);
+        font-size: 20px;
+        color: var(--forest-dark);
+        margin: 4px 0 2px;
+      }
+      .offer-card .oc-expiry {
+        font-size: 7px;
+        color: var(--ochre);
+        margin-bottom: 10px;
+        text-transform: uppercase;
+      }
+      .offer-actions {
+        display: flex;
+        gap: 6px;
+      }
+      .offer-actions .btn {
+        flex: 1;
+        padding: 6px 0;
+        font-size: 7px;
+      }
+      .chat-input-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 16px;
+        border-top: 4px solid var(--charcoal);
+        background: var(--white);
+      }
+      .chat-input-row input {
+        flex: 1;
+        border: 3px solid var(--charcoal);
+        padding: 8px 12px;
+        font-size: 9px;
+        font-family: var(--font);
+        outline: none;
+        background: var(--cream);
+        text-transform: uppercase;
+      }
+      .chat-input-row input:focus {
+        border-color: var(--forest);
+      }
+      .chat-side {
+        border-left: 4px solid var(--charcoal);
+        padding: 14px;
+        background: var(--cream);
+      }
+      .mini-product {
+        display: flex;
+        gap: 8px;
+        background: var(--surface);
+        border: 3px solid var(--charcoal);
+        padding: 8px;
+        margin-bottom: 10px;
+      }
+      .mini-product img {
+        width: 44px;
+        height: 44px;
+        border: 2px solid var(--charcoal);
+        background: #d8cebc;
+      }
+
+      /* ── Pixel Auction ── */
+      .auction-wrap {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 16px 20px 24px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+      }
+      .timer-strip {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 12px;
+      }
+      .timer-box {
+        background: var(--forest-dark);
+        color: var(--white);
+        border: 3px solid var(--charcoal);
+        padding: 10px 14px;
+        text-align: center;
+        min-width: 56px;
+      }
+      .timer-box .n {
+        font-family: var(--font);
+        font-size: 18px;
+      }
+      .timer-box .l {
+        font-size: 7px;
+        color: #ffffff88;
+        text-transform: uppercase;
+      }
+      .bid-panel {
+        background: var(--white);
+        border: 4px solid var(--charcoal);
+        padding: 16px;
+      }
+      .bid-current {
+        background: var(--green-light);
+        border: 3px solid var(--charcoal);
+        padding: 14px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+      }
+      .bid-current .lab {
+        font-size: 7px;
+        color: var(--forest);
+        text-transform: uppercase;
+      }
+      .bid-current .amt {
+        font-family: var(--font);
+        font-size: 24px;
+        color: var(--forest-dark);
+      }
+      .bid-current .bidders {
+        font-size: 7px;
+        color: var(--forest);
+        text-align: right;
+        text-transform: uppercase;
+      }
+      .bid-history {
+        max-height: 140px;
+        overflow-y: auto;
+        margin: 10px 0 12px;
+      }
+      .bid-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 6px 0;
+        border-bottom: 2px solid var(--line);
+        font-size: 8px;
+        text-transform: uppercase;
+      }
+      .bid-row .who {
+        font-weight: 700;
+      }
+      .bid-row .when {
+        color: var(--charcoal-40);
+        font-size: 7px;
+      }
+      .bid-input {
+        display: flex;
+        align-items: center;
+        border: 3px solid var(--charcoal);
+        overflow: hidden;
+        margin-bottom: 10px;
+      }
+      .bid-input .stepper {
+        width: 36px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--surface);
+        font-size: 16px;
+        color: var(--forest);
+        cursor: pointer;
+        border-right: 3px solid var(--charcoal);
+        transition: var(--transition);
+      }
+      .bid-input .stepper:last-child {
+        border-right: none;
+        border-left: 3px solid var(--charcoal);
+      }
+      .bid-input .stepper:hover {
+        background: var(--line);
+      }
+      .bid-input input {
+        flex: 1;
+        border: none;
+        text-align: center;
+        font-family: var(--font);
+        font-size: 16px;
+        outline: none;
+        color: var(--forest-dark);
+        background: var(--cream);
+      }
+
+      /* ── Pixel Checkout ── */
+      .checkout-wrap {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 16px 20px 24px;
+        display: grid;
+        grid-template-columns: 1.5fr 1fr;
+        gap: 20px;
+      }
+      .co-block {
+        background: var(--white);
+        border: 4px solid var(--charcoal);
+        padding: 14px 16px;
+        margin-bottom: 14px;
+      }
+      .co-block h4 {
+        font-size: 10px;
+        margin-bottom: 10px;
+        text-transform: uppercase;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .input {
+        width: 100%;
+        border: 3px solid var(--charcoal);
+        padding: 8px 10px;
+        font-size: 9px;
+        font-family: var(--font);
+        outline: none;
+        margin-bottom: 8px;
+        background: var(--cream);
+        text-transform: uppercase;
+      }
+      .input:focus {
+        border-color: var(--forest);
+      }
+      .pay-option {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        border: 3px solid var(--line);
+        padding: 10px 12px;
+        margin-bottom: 6px;
+        cursor: pointer;
+        transition: var(--transition);
+      }
+      .pay-option:hover {
+        border-color: var(--charcoal-40);
+      }
+      .pay-option.on {
+        border-color: var(--forest);
+        background: var(--green-light);
+      }
+      .radio {
+        width: 16px;
+        height: 16px;
+        border: 3px solid var(--line);
+        flex-shrink: 0;
+        position: relative;
+        transition: var(--transition);
+      }
+      .radio.on {
+        border-color: var(--forest);
+      }
+      .radio.on::after {
+        content: "";
+        position: absolute;
+        inset: 2px;
+        background: var(--forest);
+      }
+      .summary-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 9px;
+        padding: 6px 0;
+        color: var(--charcoal-60);
+        text-transform: uppercase;
+      }
+      .summary-row.total {
+        border-top: 3px dashed var(--line);
+        margin-top: 6px;
+        padding-top: 10px;
+        font-weight: 700;
+        color: var(--forest-dark);
+        font-size: 11px;
+      }
+
+      /* ── Pixel Order Tracking ── */
+      .track-wrap {
+        max-width: 680px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      .timeline {
+        margin-top: 16px;
+      }
+      .t-step {
+        display: flex;
+        gap: 14px;
+        position: relative;
+        padding-bottom: 24px;
+      }
+      .t-step:last-child {
+        padding-bottom: 0;
+      }
+      .t-step::before {
+        content: "";
+        position: absolute;
+        left: 14px;
+        top: 28px;
+        bottom: 0;
+        width: 3px;
+        background: var(--line);
+      }
+      .t-step:last-child::before {
+        display: none;
+      }
+      .t-step.done::before {
+        background: var(--green);
+      }
+      .t-dot {
+        width: 28px;
+        height: 28px;
+        background: var(--surface);
+        border: 3px solid var(--charcoal);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        z-index: 1;
+        color: var(--charcoal-40);
+        font-size: 12px;
+      }
+      .t-step.done .t-dot {
+        background: var(--green);
+        color: var(--white);
+        border-color: var(--charcoal);
+      }
+      .t-step.current .t-dot {
+        background: var(--forest);
+        color: var(--white);
+        border-color: var(--charcoal);
+      }
+      .t-content h5 {
+        font-size: 10px;
+        text-transform: uppercase;
+      }
+      .t-content .when {
+        font-size: 7px;
+        color: var(--charcoal-40);
+        text-transform: uppercase;
+      }
+
+      /* ── Pixel Community ── */
+      .challenge-card {
+        background: var(--forest-dark);
+        border: 4px solid var(--charcoal);
+        padding: 16px;
+        color: var(--white);
+        position: relative;
+      }
+      .challenge-card .tag {
+        background: var(--green);
+        color: var(--forest-dark);
+        border-color: var(--charcoal);
+      }
+      .progress-track {
+        height: 10px;
+        background: #ffffff30;
+        border: 2px solid var(--charcoal);
+        margin: 10px 0 6px;
+        overflow: hidden;
+      }
+      .progress-fill {
+        height: 100%;
+        background: var(--green);
+      }
+      .avatars-overlap {
+        display: flex;
+      }
+      .avatars-overlap div {
+        width: 26px;
+        height: 26px;
+        border: 2px solid var(--forest-dark);
+        margin-left: -8px;
+        background: repeating-conic-gradient(
+            var(--ochre) 0% 25%,
+            var(--green) 0% 50%
+          )
+          0 0 / 6px 6px;
+      }
+      .avatars-overlap div:first-child {
+        margin-left: 0;
+      }
+
+      /* ── Pixel Impact Dashboard ── */
+      .impact-hero {
+        background: var(--forest-dark);
+        padding: 24px 20px;
+        color: var(--white);
+        border-bottom: 4px solid var(--charcoal);
+      }
+      .impact-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        margin-top: 14px;
+      }
+      .impact-metric {
+        background: #ffffff0d;
+        border: 3px solid #ffffff33;
+        padding: 16px;
+      }
+      .impact-metric .n {
+        font-family: var(--font);
+        font-size: 24px;
+        color: var(--green-light);
+      }
+      .impact-metric .l {
+        font-size: 7px;
+        color: #ffffffaa;
+        margin-top: 4px;
+        text-transform: uppercase;
+      }
+      .chart-card {
+        background: var(--white);
+        border: 4px solid var(--charcoal);
+        padding: 14px;
+      }
+      .bars {
+        display: flex;
+        align-items: flex-end;
+        gap: 8px;
+        height: 120px;
+        padding-top: 8px;
+      }
+      .bars .bar {
+        flex: 1;
+        background: var(--forest);
+        border: 2px solid var(--charcoal);
+        border-bottom: none;
+        min-height: 6px;
+      }
+      .bars .lbl {
+        display: flex;
+        gap: 8px;
+        margin-top: 6px;
+      }
+      .bars .lbl span {
+        flex: 1;
+        text-align: center;
+        font-size: 7px;
+        color: var(--charcoal-40);
+        text-transform: uppercase;
+      }
+
+      /* ── Pixel Seller Dashboard ── */
+      .dash-topcards {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        padding: 16px 20px 0;
+      }
+      .metric-card {
+        background: var(--white);
+        border: 3px solid var(--charcoal);
+        padding: 14px;
+      }
+      .metric-card .l {
+        font-size: 7px;
+        color: var(--charcoal-40);
+        margin-bottom: 4px;
+        text-transform: uppercase;
+      }
+      .metric-card .n {
+        font-family: var(--font);
+        font-size: 18px;
+        color: var(--forest-dark);
+      }
+      .metric-card .delta {
+        font-size: 7px;
+        color: var(--green);
+        margin-top: 4px;
+        text-transform: uppercase;
+      }
+      .dash-2col {
+        display: grid;
+        grid-template-columns: 1.6fr 1fr;
+        gap: 12px;
+        padding: 12px 20px 24px;
+      }
+      .order-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 0;
+        border-bottom: 2px solid var(--line);
+        font-size: 8px;
+        text-transform: uppercase;
+      }
+      .order-row .id {
+        font-weight: 700;
+        width: 70px;
+      }
+      .status-pill {
+        padding: 3px 8px;
+        border: 2px solid var(--charcoal);
+        font-size: 7px;
+        text-transform: uppercase;
+      }
+      .status-pill.pending {
+        background: var(--ochre-light);
+        color: #6a3a1a;
+      }
+      .status-pill.shipped {
+        background: var(--green-light);
+        color: var(--forest);
+      }
+      .status-pill.done {
+        background: var(--surface);
+        color: var(--charcoal-60);
+      }
+
+      /* ── Pixel Mobile ── */
+      .mobile-wrap {
+        display: flex;
+        justify-content: center;
+        padding: 24px;
+        gap: 20px;
+        flex-wrap: wrap;
+        background: var(--cream-dark);
+        min-height: 100vh;
+      }
+      .phone {
+        width: 320px;
+        height: 640px;
+        background: var(--cream);
+        border: 8px solid #1a1a1a;
+        overflow-y: auto;
+        position: relative;
+        image-rendering: pixelated;
+      }
+      .phone-notch {
+        position: sticky;
+        top: 0;
+        height: 22px;
+        background: #1a1a1a;
+        width: 100px;
+        margin: 0 auto;
+        z-index: 5;
+      }
+      .m-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 12px 6px;
+      }
+      .m-content {
+        padding: 0 12px 80px;
+      }
+      .bottom-nav {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: var(--white);
+        border-top: 4px solid var(--charcoal);
+        display: flex;
+        padding: 8px 4px 12px;
+      }
+      .bn-item {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2px;
+        color: var(--charcoal-40);
+        font-size: 7px;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: var(--transition);
+      }
+      .bn-item.on {
+        color: var(--forest);
+      }
+      .m-pcard {
+        background: var(--white);
+        border: 3px solid var(--charcoal);
+        overflow: hidden;
+        margin-bottom: 10px;
+      }
+      .m-pcard .img {
+        height: 120px;
+        background-color: #d8cebc;
+        border-bottom: 3px solid var(--charcoal);
+      }
+      .m-search {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        background: var(--white);
+        border: 3px solid var(--charcoal);
+        padding: 8px 10px;
+        margin: 0 12px 10px;
+      }
+      .m-search input {
+        border: none;
+        outline: none;
+        font-size: 8px;
+        flex: 1;
+        background: none;
+        font-family: var(--font);
+        text-transform: uppercase;
+      }
+      .m-cat-row {
+        display: flex;
+        gap: 8px;
+        overflow-x: auto;
+        padding: 0 12px 12px;
+      }
+      .m-cat {
+        flex-shrink: 0;
+        background: var(--white);
+        border: 3px solid var(--charcoal);
+        padding: 5px 12px;
+        font-size: 7px;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: var(--transition);
+      }
+      .m-cat:hover {
+        background: var(--surface);
+      }
+      .sticky-buy {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: var(--white);
+        border-top: 4px solid var(--charcoal);
+        padding: 10px 12px 16px;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+
+      /* ── Pixel Utilities ── */
+      .dev-note {
+        font-size: 7px;
+        color: var(--charcoal-40);
+        padding: 2px 0;
+        text-transform: uppercase;
+      }
+      .placeholder-img {
+        background: repeating-linear-gradient(
+          135deg,
+          #d8cebc 0 8px,
+          #c8bca8 8px 16px
+        );
+      }
+      .pixel-border {
+        border: 4px solid var(--charcoal);
+      }
+
+      /* ── Responsive ── */
+      @media (max-width: 1200px) {
+        .grid-4 {
+          grid-template-columns: repeat(3, 1fr);
+        }
+        .dash-topcards {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .impact-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .chat-layout {
+          grid-template-columns: 1fr;
+          height: auto;
+        }
+        .chat-side {
+          display: none;
+        }
+        .auction-wrap {
+          grid-template-columns: 1fr;
+        }
+        .explore-layout {
+          grid-template-columns: 1fr;
+        }
+        .filter-panel {
+          position: relative;
+          top: 0;
+        }
+      }
+      @media (max-width: 992px) {
+        .hero {
+          grid-template-columns: 1fr;
+          padding: 20px 16px;
+        }
+        .hero-visual {
+          height: 250px;
+        }
+        .pd-wrap {
+          grid-template-columns: 1fr;
+        }
+        .checkout-wrap {
+          grid-template-columns: 1fr;
+        }
+        .dash-2col {
+          grid-template-columns: 1fr;
+        }
+        .store-header-row {
+          flex-wrap: wrap;
+          transform: translateY(30%);
+        }
+        .store-tabs {
+          margin-top: 50px;
+        }
+        .impact-strip {
+          flex-direction: column;
+        }
+      }
+      @media (max-width: 768px) {
+        .railnav {
+          display: none;
+        }
+        .top-nav {
+          display: none;
+        }
+        .top-header {
+          padding: 8px 12px;
+        }
+        .section {
+          padding: 16px 12px;
+        }
+        .hero h1 {
+          font-size: 20px;
+        }
+        .grid-4,
+        .grid-3 {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .dash-topcards {
+          grid-template-columns: 1fr 1fr;
+        }
+        .mobile-wrap {
+          padding: 12px;
+          gap: 12px;
+        }
+        .phone {
+          width: 100%;
+          height: 560px;
+          border-width: 6px;
+        }
+      }
+      @media (max-width: 480px) {
+        .grid-4,
+        .grid-3,
+        .grid-2 {
+          grid-template-columns: 1fr;
+        }
+        .hero-ctas {
+          flex-direction: column;
+        }
+        .hero-stats {
+          flex-wrap: wrap;
+          gap: 10px;
+        }
+        .hero-stats div {
+          border-left: none;
+          padding-left: 0;
+        }
+        .pd-ctas {
+          flex-wrap: wrap;
+        }
+        .pd-ctas .btn {
+          flex: 1 1 100%;
+        }
+        .store-header-row {
+          flex-direction: column;
+          align-items: flex-start;
+          transform: translateY(20%);
+        }
+        .store-ctas {
+          width: 100%;
+        }
+        .store-tabs {
+          flex-wrap: wrap;
+          gap: 6px;
+          padding: 0 12px;
+        }
+        .store-tab {
+          font-size: 8px;
+          padding: 8px 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app-shell">
+      <!-- ===== PIXEL RAIL NAV ===== -->
+      <nav class="railnav">
+        <div class="brand">
+          <div class="mark"></div>
+          <span>ReBayan</span>
+        </div>
+        <div class="rail-group">
+          <span class="rail-label">Buyer</span>
+          <button class="rail-btn active" data-screen="home">
+            <span class="dot"></span>Home
+          </button>
+          <button class="rail-btn" data-screen="explore">
+            <span class="dot"></span>Explore
+          </button>
+          <button class="rail-btn" data-screen="product">
+            <span class="dot"></span>Product
+          </button>
+          <button class="rail-btn" data-screen="chat">
+            <span class="dot"></span>Chat
+          </button>
+          <button class="rail-btn" data-screen="auction">
+            <span class="dot"></span>Auction
+          </button>
+          <button class="rail-btn" data-screen="checkout">
+            <span class="dot"></span>Checkout
+          </button>
+          <button class="rail-btn" data-screen="tracking">
+            <span class="dot"></span>Tracking
+          </button>
+        </div>
+        <div class="rail-group">
+          <span class="rail-label">Seller</span>
+          <button class="rail-btn" data-screen="store">
+            <span class="dot"></span>Store
+          </button>
+          <button class="rail-btn" data-screen="dashboard">
+            <span class="dot"></span>Dashboard
+          </button>
+        </div>
+        <div class="rail-group">
+          <span class="rail-label">Ecosystem</span>
+          <button class="rail-btn" data-screen="community">
+            <span class="dot"></span>Community
+          </button>
+          <button class="rail-btn" data-screen="impact">
+            <span class="dot"></span>Impact
+          </button>
+        </div>
+        <div class="rail-group">
+          <span class="rail-label">Mobile</span>
+          <button class="rail-btn" data-screen="mobile">
+            <span class="dot"></span>Mobile
+          </button>
+        </div>
+      </nav>
+
+      <div class="stage">
+        <!-- ===== HOME ===== -->
+        <section class="screen active" id="home">
+          <header class="top-header">
+            <div class="brandmark">
+              <div class="mark"></div>
+              <span>ReBayan</span>
+            </div>
+            <nav class="top-nav">
+              <a>Explore</a><a>Categories</a><a>Community</a><a>Impact</a>
+            </nav>
+            <div class="top-actions">
+              <div class="icon-btn">🔍</div>
+              <div class="icon-btn">💬</div>
+              <div class="icon-btn">🔔<span class="badge-dot"></span></div>
+              <div class="icon-btn">🛒</div>
+              <button class="btn btn-outline btn-sm">Sell</button>
+              <div class="avatar"></div>
+            </div>
+          </header>
+
+          <div class="hero">
+            <div>
+              <div class="hero-tag">
+                <div class="swatch"></div>
+              </div>
+              <h1>Buy Local.<br />Buy Circular.</h1>
+              <p class="lede">
+                Discover recycled &amp; upcycled products from local makers
+                supporting a circular Philippines.
+              </p>
+              <div class="hero-ctas">
+                <button class="btn btn-primary">Explore</button>
+                <button class="btn btn-ghost">Sell</button>
+              </div>
+              <div class="hero-stats">
+                <div>
+                  <div class="n">1,248 kg</div>
+                  <div class="l">Waste diverted</div>
+                </div>
+                <div>
+                  <div class="n">486</div>
+                  <div class="l">Upcycled</div>
+                </div>
+                <div>
+                  <div class="n">127</div>
+                  <div class="l">Makers</div>
+                </div>
+              </div>
+            </div>
+            <div class="hero-visual">
+              <div
+                class="floatcard"
+                style="width: 220px; height: 280px; top: 0; right: 20px"
+              ></div>
+              <div
+                class="floatcard"
+                style="width: 170px; height: 170px; bottom: 20px; left: 0"
+              ></div>
+              <div
+                class="floatcard"
+                style="width: 140px; height: 140px; bottom: 0; right: 0"
+              ></div>
+            </div>
+          </div>
+
+          <section class="section" style="padding-top: 0">
+            <div class="eyebrow-line">
+              <span>Categories</span>
+              <div class="stitch"></div>
+            </div>
+            <div class="cat-row">
+              <div class="cat-pill">
+                <div class="circ">🏮</div>
+                <span>Decor</span>
+              </div>
+              <div class="cat-pill">
+                <div class="circ">👜</div>
+                <span>Bags</span>
+              </div>
+              <div class="cat-pill">
+                <div class="circ">🪑</div>
+                <span>Furniture</span>
+              </div>
+              <div class="cat-pill">
+                <div class="circ">👕</div>
+                <span>Fashion</span>
+              </div>
+              <div class="cat-pill">
+                <div class="circ">💍</div>
+                <span>Accessories</span>
+              </div>
+              <div class="cat-pill">
+                <div class="circ">🌱</div>
+                <span>Garden</span>
+              </div>
+            </div>
+          </section>
+
+          <section class="section" style="padding-top: 0">
+            <div class="section-head">
+              <h2>Trending</h2>
+              <a>View all →</a>
+            </div>
+            <div class="grid grid-4" id="home-products"></div>
+          </section>
+
+          <section class="section" style="padding-top: 0">
+            <div class="section-head">
+              <h2>Makers</h2>
+              <a>View all →</a>
+            </div>
+            <div class="grid grid-3">
+              <div
+                class="card"
+                style="
+                  padding: 14px;
+                  display: flex;
+                  gap: 12px;
+                  align-items: center;
+                "
+              >
+                <div
+                  class="store-avatar"
+                  style="width: 50px; height: 50px; border-width: 3px"
+                ></div>
+                <div>
+                  <h4 style="font-size: 9px">Kalikasan Krafts</h4>
+                  <span class="dev-note">Naga · 2,480 kg</span>
+                </div>
+              </div>
+              <div
+                class="card"
+                style="
+                  padding: 14px;
+                  display: flex;
+                  gap: 12px;
+                  align-items: center;
+                "
+              >
+                <div
+                  class="store-avatar"
+                  style="
+                    width: 50px;
+                    height: 50px;
+                    border-width: 3px;
+                    background: repeating-conic-gradient(
+                        #4ca771 0% 25%,
+                        #173a2e 0% 50%
+                      )
+                      0 0 / 8px 8px;
+                  "
+                ></div>
+                <div>
+                  <h4 style="font-size: 9px">Sinag Upcycled</h4>
+                  <span class="dev-note">Iloilo · 1,120 kg</span>
+                </div>
+              </div>
+              <div
+                class="card"
+                style="
+                  padding: 14px;
+                  display: flex;
+                  gap: 12px;
+                  align-items: center;
+                "
+              >
+                <div
+                  class="store-avatar"
+                  style="
+                    width: 50px;
+                    height: 50px;
+                    border-width: 3px;
+                    background: repeating-conic-gradient(
+                        #b8763a 0% 25%,
+                        #173a2e 0% 50%
+                      )
+                      0 0 / 8px 8px;
+                  "
+                ></div>
+                <div>
+                  <h4 style="font-size: 9px">Banig &amp; Bote</h4>
+                  <span class="dev-note">Cebu · 3,015 kg</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section
+            class="section"
+            style="
+              padding-top: 0;
+              background: var(--forest-dark);
+              border: 4px solid var(--charcoal);
+              margin: 0 20px 24px;
+              color: var(--white);
+            "
+          >
+            <div class="section-head">
+              <h2 style="color: var(--white)">Community</h2>
+              <a style="color: var(--green-light)">Visit →</a>
+            </div>
+            <p style="color: #ffffffbb; max-width: 480px; font-size: 9px">
+              "We turned fishing-net waste into woven totes — and gave 14
+              weavers new income." — Ate Nena
+            </p>
+          </section>
+        </section>
+
+        <!-- ===== EXPLORE ===== -->
+        <section class="screen" id="explore">
+          <header class="top-header">
+            <div class="brandmark">
+              <div class="mark"></div>
+              <span>ReBayan</span>
+            </div>
+            <div class="searchbar" style="max-width: 480px">
+              <span>🔍</span><input placeholder="Search parol, bags, wood…" />
+            </div>
+            <div class="top-actions">
+              <div class="icon-btn">🛒</div>
+              <div class="avatar"></div>
+            </div>
+          </header>
+          <div style="padding: 12px 20px 0">
+            <div class="section-head" style="margin-bottom: 4px">
+              <h2 style="font-size: 13px">Explore</h2>
+              <div style="display: flex; gap: 8px">
+                <div class="sort-select">Sort ⌄</div>
+              </div>
+            </div>
+            <div class="trans-pills">
+              <div class="trans-pill on">All</div>
+              <div class="trans-pill">Buy Now</div>
+              <div class="trans-pill">Offer</div>
+              <div class="trans-pill">Auction</div>
+            </div>
+          </div>
+          <div class="explore-layout">
+            <aside class="filter-panel">
+              <div class="filter-group">
+                <h5>Category</h5>
+                <div class="check-row">
+                  <div class="checkbox on"></div>
+                  Decor
+                </div>
+                <div class="check-row">
+                  <div class="checkbox"></div>
+                  Bags
+                </div>
+                <div class="check-row">
+                  <div class="checkbox"></div>
+                  Furniture
+                </div>
+                <div class="check-row">
+                  <div class="checkbox"></div>
+                  Fashion
+                </div>
+              </div>
+              <div class="filter-group">
+                <h5>Price</h5>
+                <div class="pricebar">
+                  <div class="fill"></div>
+                  <div class="knob" style="left: 15%"></div>
+                  <div class="knob" style="left: 65%"></div>
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    justify-content: space-between;
+                    font-size: 7px;
+                    color: var(--charcoal-40);
+                  "
+                >
+                  <span>₱150</span><span>₱3,500</span>
+                </div>
+              </div>
+              <div class="filter-group">
+                <h5>Location</h5>
+                <div class="check-row">
+                  <div class="checkbox on"></div>
+                  Naga
+                </div>
+                <div class="check-row">
+                  <div class="checkbox"></div>
+                  Manila
+                </div>
+                <div class="check-row">
+                  <div class="checkbox"></div>
+                  Cebu
+                </div>
+              </div>
+              <div class="filter-group">
+                <h5>Material</h5>
+                <div class="check-row">
+                  <div class="checkbox"></div>
+                  Plastic
+                </div>
+                <div class="check-row">
+                  <div class="checkbox on"></div>
+                  Wood
+                </div>
+                <div class="check-row">
+                  <div class="checkbox"></div>
+                  Fabric
+                </div>
+              </div>
+              <button
+                class="btn btn-primary btn-block btn-sm"
+                style="margin-top: 4px"
+              >
+                Apply
+              </button>
+            </aside>
+            <div class="grid grid-3" id="explore-products"></div>
+          </div>
+        </section>
+
+        <!-- ===== PRODUCT DETAIL ===== -->
+        <section class="screen" id="product">
+          <header class="top-header">
+            <div class="brandmark">
+              <div class="mark"></div>
+              <span>ReBayan</span>
+            </div>
+            <nav class="top-nav">
+              <a>Explore</a><a>Categories</a><a>Community</a>
+            </nav>
+            <div class="top-actions">
+              <div class="icon-btn">🛒</div>
+              <div class="avatar"></div>
+            </div>
+          </header>
+          <div class="pd-wrap">
+            <div>
+              <div class="pd-main-img placeholder-img">
+                <div class="zoom-btn">🔍</div>
+              </div>
+              <div class="thumb-row">
+                <div class="thumb placeholder-img on"></div>
+                <div class="thumb placeholder-img"></div>
+                <div class="thumb placeholder-img"></div>
+              </div>
+              <div style="margin-top: 20px">
+                <div class="material-story">
+                  <div class="ms-head">
+                    <div class="ms-icon">♻️</div>
+                    <div>
+                      <div class="ms-title">Material Story</div>
+                      <div class="ms-sub">What this is made of</div>
+                    </div>
+                  </div>
+                  <ul class="ms-materials">
+                    <li><span class="chip"></span>800g recycled PET</li>
+                    <li><span class="chip"></span>Reused acetate</li>
+                    <li><span class="chip"></span>Bamboo frame</li>
+                  </ul>
+                  <div class="ms-block">
+                    <div class="label">Source</div>
+                    <div class="txt">
+                      Collected from recycling drives in Naga City.
+                    </div>
+                  </div>
+                  <div class="ms-impact">
+                    <div class="num">0.8 kg</div>
+                    <div class="txt2">waste diverted</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <span class="verified"
+                ><svg viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M12 2l2.4 2.2 3.2-.6.9 3.1 3 1.4-1 3.1 1 3.1-3 1.4-.9 3.1-3.2-.6L12 22l-2.4-2.2-3.2.6-.9-3.1-3-1.4 1-3.1-1-3.1 3-1.4.9-3.1 3.2.6z"
+                  /></svg
+                >Verified</span
+              >
+              <h1 style="font-size: 18px; margin-top: 6px">
+                Handwoven Recycled Parol
+              </h1>
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 8px;
+                  margin-top: 6px;
+                "
+              >
+                <span class="stars">★★★★★</span
+                ><span class="dev-note">4.9 · Naga</span>
+              </div>
+              <div class="pd-price-row">
+                <span class="pd-price">₱850</span
+                ><span class="pd-oldprice">₱1,100</span
+                ><span class="tag tag-green">In Stock</span>
+              </div>
+              <div class="info-row">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M3 12h18M3 6h18M3 18h18" /></svg
+                >Kalikasan Krafts
+              </div>
+              <div class="info-row">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="12" cy="12" r="9" />
+                  <path d="M12 7v5l3 2" /></svg
+                >3–5 days · J&T
+              </div>
+              <div class="info-row">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" /></svg
+                >4 sold · 12 left
+              </div>
+              <div class="pd-ctas">
+                <button class="btn btn-primary" style="flex: 1.3">Buy</button
+                ><button class="btn btn-outline">Offer</button
+                ><button class="btn btn-ghost">💬</button>
+              </div>
+              <button class="btn btn-ghost btn-block" style="margin-top: 8px">
+                🤍 Wishlist
+              </button>
+              <div class="seller-mini">
+                <div
+                  class="store-avatar"
+                  style="width: 40px; height: 40px; border-width: 2px"
+                ></div>
+                <div class="info">
+                  <h5>Kalikasan Krafts</h5>
+                  <div class="sub">98% response · 2 hrs</div>
+                </div>
+                <button class="btn btn-ghost btn-sm">Store</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== STORE ===== -->
+        <section class="screen" id="store">
+          <header class="top-header">
+            <div class="brandmark">
+              <div class="mark"></div>
+              <span>ReBayan</span>
+            </div>
+            <nav class="top-nav">
+              <a>Explore</a><a>Categories</a><a>Community</a>
+            </nav>
+            <div class="top-actions"><div class="avatar"></div></div>
+          </header>
+          <div class="store-hero">
+            <div class="store-cover"></div>
+            <div class="store-header-row">
+              <div class="store-avatar"></div>
+              <div class="store-info">
+                <h2>
+                  Kalikasan Krafts
+                  <span class="verified" style="color: var(--green-light)"
+                    >✓</span
+                  >
+                </h2>
+                <div class="meta">
+                  <span>📍 Naga</span><span>★ 4.9</span><span>327 sales</span>
+                </div>
+              </div>
+              <div class="store-ctas">
+                <button class="btn btn-accent btn-sm">Follow</button
+                ><button
+                  class="btn btn-outline btn-sm"
+                  style="background: var(--white)"
+                >
+                  💬
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="store-tabs">
+            <div class="store-tab on">Products</div>
+            <div class="store-tab">Story</div>
+            <div class="store-tab">Reviews</div>
+          </div>
+          <div class="impact-strip">
+            <div class="impact-chip">
+              <div class="n">2,480 kg</div>
+              <div class="l">Reused</div>
+            </div>
+            <div class="impact-chip">
+              <div class="n">327</div>
+              <div class="l">Sold</div>
+            </div>
+            <div class="impact-chip">
+              <div class="n">156</div>
+              <div class="l">Buyers</div>
+            </div>
+          </div>
+          <div class="section" style="padding-top: 0">
+            <div class="grid grid-4" id="store-products"></div>
+          </div>
+        </section>
+
+        <!-- ===== CHAT ===== -->
+        <section class="screen" id="chat">
+          <div class="chat-layout">
+            <div class="chat-list">
+              <div
+                style="
+                  padding: 12px;
+                  font-family: var(--font);
+                  font-size: 11px;
+                  border-bottom: 4px solid var(--charcoal);
+                  text-transform: uppercase;
+                "
+              >
+                Messages
+              </div>
+              <div class="chat-list-item active">
+                <div class="avatar" style="width: 36px; height: 36px"></div>
+                <div>
+                  <div class="nm">Ana Cruz</div>
+                  <div class="last">Can you do ₱750?</div>
+                </div>
+              </div>
+              <div class="chat-list-item">
+                <div class="avatar" style="width: 36px; height: 36px"></div>
+                <div>
+                  <div class="nm">Kalikasan</div>
+                  <div class="last">Order shipped!</div>
+                </div>
+              </div>
+            </div>
+            <div class="chat-thread">
+              <div class="chat-topbar">
+                <div class="avatar" style="width: 32px; height: 32px"></div>
+                <div>
+                  <div style="font-size: 9px; text-transform: uppercase">
+                    Ana Cruz
+                  </div>
+                  <div class="dev-note">Interested in Parol</div>
+                </div>
+              </div>
+              <div class="chat-body">
+                <div class="bubble-row">
+                  <div class="bubble them">Is the parol still available?</div>
+                </div>
+                <div class="bubble-row me">
+                  <div class="bubble me">Yes! 12 in stock 😊</div>
+                </div>
+                <div class="bubble-row">
+                  <div class="bubble them">Can you do ₱750?</div>
+                </div>
+                <div class="bubble-row">
+                  <div class="offer-card">
+                    <div class="oc-label">Offer <span>₱750</span></div>
+                    <div class="oc-amount">₱750</div>
+                    <div class="oc-expiry">⏱ 12 hours</div>
+                    <div class="offer-actions">
+                      <button class="btn btn-primary btn-sm">Accept</button
+                      ><button class="btn btn-outline btn-sm">Counter</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="chat-input-row">
+                <div class="icon-btn">📎</div>
+                <input placeholder="Type…" /><button
+                  class="btn btn-outline btn-sm"
+                >
+                  Offer</button
+                ><button class="btn btn-primary btn-sm">Send</button>
+              </div>
+            </div>
+            <div class="chat-side">
+              <h5
+                style="
+                  font-size: 8px;
+                  text-transform: uppercase;
+                  color: var(--charcoal-40);
+                  margin-bottom: 6px;
+                "
+              >
+                Product
+              </h5>
+              <div class="mini-product">
+                <img src="" />
+                <div>
+                  <div style="font-size: 9px; text-transform: uppercase">
+                    Parol
+                  </div>
+                  <div class="dev-note">₱850</div>
+                </div>
+              </div>
+              <div
+                class="card"
+                style="
+                  padding: 10px;
+                  font-size: 7px;
+                  color: var(--charcoal-60);
+                  text-transform: uppercase;
+                "
+              >
+                No active order — negotiation
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== AUCTION ===== -->
+        <section class="screen" id="auction">
+          <header class="top-header">
+            <div class="brandmark">
+              <div class="mark"></div>
+              <span>ReBayan</span>
+            </div>
+            <div class="top-actions"><div class="avatar"></div></div>
+          </header>
+          <div class="auction-wrap">
+            <div>
+              <div
+                class="pd-main-img placeholder-img"
+                style="aspect-ratio: 1/0.85"
+              ></div>
+              <h3 style="margin-top: 12px; font-size: 14px">
+                Reclaimed Narra Coffee Table
+              </h3>
+              <p
+                style="
+                  font-size: 8px;
+                  color: var(--charcoal-60);
+                  text-transform: uppercase;
+                "
+              >
+                One-of-a-kind · Cebu
+              </p>
+              <div
+                class="material-strip"
+                style="margin-top: 10px; width: fit-content"
+              >
+                <span>♻️</span> 100% reclaimed narra
+              </div>
+            </div>
+            <div>
+              <div class="tag tag-ochre" style="margin-bottom: 10px">
+                🔥 Limited
+              </div>
+              <div class="timer-strip">
+                <div class="timer-box">
+                  <div class="n">02</div>
+                  <div class="l">Hours</div>
+                </div>
+                <div class="timer-box">
+                  <div class="n">34</div>
+                  <div class="l">Min</div>
+                </div>
+                <div class="timer-box">
+                  <div class="n">17</div>
+                  <div class="l">Sec</div>
+                </div>
+              </div>
+              <div class="bid-panel">
+                <div class="bid-current">
+                  <div>
+                    <div class="lab">Current Bid</div>
+                    <div class="amt">₱1,250</div>
+                  </div>
+                  <div class="bidders">12 bidders</div>
+                </div>
+                <div class="bid-history">
+                  <div class="bid-row">
+                    <span class="who">R. Santos</span
+                    ><span>₱1,250 <span class="when">4m</span></span>
+                  </div>
+                  <div class="bid-row">
+                    <span class="who">M. Reyes</span
+                    ><span>₱1,180 <span class="when">12m</span></span>
+                  </div>
+                </div>
+                <div
+                  style="
+                    font-size: 7px;
+                    color: var(--charcoal-40);
+                    margin-bottom: 6px;
+                  "
+                >
+                  Next:
+                  <strong style="color: var(--forest-dark)">₱1,300</strong>
+                </div>
+                <div class="bid-input">
+                  <div class="stepper">−</div>
+                  <input value="₱1,300" />
+                  <div class="stepper">+</div>
+                </div>
+                <button class="btn btn-primary btn-block">Place Bid</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== CHECKOUT ===== -->
+        <section class="screen" id="checkout">
+          <header class="top-header">
+            <div class="brandmark">
+              <div class="mark"></div>
+              <span>ReBayan</span>
+            </div>
+            <div class="top-actions"><div class="avatar"></div></div>
+          </header>
+          <div class="checkout-wrap">
+            <div>
+              <div class="co-block">
+                <h4>📍 Address</h4>
+                <input class="input" value="Anna Reyes" /><input
+                  class="input"
+                  value="Purok 3, Naga City, 4400"
+                /><input class="input" value="0917 123 4567" />
+              </div>
+              <div class="co-block">
+                <h4>🚚 Shipping</h4>
+                <div class="pay-option on">
+                  <div class="radio on"></div>
+                  <div style="flex: 1">
+                    <strong>J&T</strong>
+                    <div class="dev-note">3–5 days</div>
+                  </div>
+                  <span>₱85</span>
+                </div>
+                <div class="pay-option">
+                  <div class="radio"></div>
+                  <div style="flex: 1">
+                    <strong>LBC</strong>
+                    <div class="dev-note">2–4 days</div>
+                  </div>
+                  <span>₱110</span>
+                </div>
+              </div>
+              <div class="co-block">
+                <h4>💳 Payment</h4>
+                <div class="pay-option on">
+                  <div class="radio on"></div>
+                  <div style="flex: 1">GCash</div>
+                </div>
+                <div class="pay-option">
+                  <div class="radio"></div>
+                  <div style="flex: 1">Maya</div>
+                </div>
+                <div class="pay-option">
+                  <div class="radio"></div>
+                  <div style="flex: 1">Card</div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="co-block">
+                <h4>Summary</h4>
+                <div style="display: flex; gap: 8px; margin-bottom: 8px">
+                  <div
+                    class="placeholder-img"
+                    style="
+                      width: 44px;
+                      height: 44px;
+                      border: 2px solid var(--charcoal);
+                    "
+                  ></div>
+                  <div>
+                    <div style="font-size: 9px; text-transform: uppercase">
+                      Parol
+                    </div>
+                    <div class="dev-note">Qty: 1 · ₱850</div>
+                  </div>
+                </div>
+                <div class="summary-row">
+                  <span>Subtotal</span><span>₱850</span>
+                </div>
+                <div class="summary-row">
+                  <span>Shipping</span><span>₱85</span>
+                </div>
+                <div class="summary-row"><span>Fee</span><span>₱15</span></div>
+                <div class="summary-row total">
+                  <span>Total</span><span>₱950</span>
+                </div>
+                <button
+                  class="btn btn-primary btn-block"
+                  style="margin-top: 12px"
+                >
+                  Place Order
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== TRACKING ===== -->
+        <section class="screen" id="tracking">
+          <header class="top-header">
+            <div class="brandmark">
+              <div class="mark"></div>
+              <span>ReBayan</span>
+            </div>
+            <div class="top-actions"><div class="avatar"></div></div>
+          </header>
+          <div class="track-wrap">
+            <div
+              class="card"
+              style="
+                padding: 14px;
+                display: flex;
+                gap: 12px;
+                align-items: center;
+                margin-bottom: 12px;
+              "
+            >
+              <div
+                class="placeholder-img"
+                style="
+                  width: 50px;
+                  height: 50px;
+                  border: 2px solid var(--charcoal);
+                "
+              ></div>
+              <div style="flex: 1">
+                <h4 style="font-size: 11px">Parol</h4>
+                <div class="dev-note">Kalikasan Krafts · #RB-24831</div>
+              </div>
+              <span class="tag tag-green">In Transit</span>
+            </div>
+            <div class="grid grid-2" style="margin-bottom: 12px">
+              <div class="card" style="padding: 12px">
+                <div class="dev-note">Courier</div>
+                <strong style="font-size: 9px">J&T — 623119482031</strong>
+              </div>
+              <div class="card" style="padding: 12px">
+                <div class="dev-note">Est. Delivery</div>
+                <strong style="font-size: 9px">Sept 4–6</strong>
+              </div>
+            </div>
+            <div class="card" style="padding: 14px">
+              <div class="timeline">
+                <div class="t-step done">
+                  <div class="t-dot">✓</div>
+                  <div class="t-content">
+                    <h5>Order Placed</h5>
+                    <div class="when">Sept 1, 9:14 AM</div>
+                  </div>
+                </div>
+                <div class="t-step done">
+                  <div class="t-dot">✓</div>
+                  <div class="t-content">
+                    <h5>Picked Up</h5>
+                    <div class="when">Sept 2, 8:05 AM</div>
+                  </div>
+                </div>
+                <div class="t-step current">
+                  <div class="t-dot">●</div>
+                  <div class="t-content">
+                    <h5>In Transit</h5>
+                    <div class="when">Naga Sorting Hub</div>
+                  </div>
+                </div>
+                <div class="t-step">
+                  <div class="t-dot">○</div>
+                  <div class="t-content">
+                    <h5>Delivered</h5>
+                    <div class="when">Pending</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== COMMUNITY ===== -->
+        <section class="screen" id="community">
+          <header class="top-header">
+            <div class="brandmark">
+              <div class="mark"></div>
+              <span>ReBayan</span>
+            </div>
+            <nav class="top-nav">
+              <a>Explore</a><a>Community</a><a>Impact</a>
+            </nav>
+            <div class="top-actions"><div class="avatar"></div></div>
+          </header>
+          <div class="section">
+            <div class="challenge-card">
+              <div
+                class="tag"
+                style="
+                  background: var(--green);
+                  color: var(--forest-dark);
+                  border-color: var(--charcoal);
+                "
+              >
+                Eco Challenge
+              </div>
+              <h2
+                style="color: var(--white); font-size: 18px; margin-top: 10px"
+              >
+                30-Day Upcycle
+              </h2>
+              <p style="color: #ffffffcc; font-size: 9px; max-width: 400px">
+                Turn waste into something useful. Share and inspire.
+              </p>
+              <div class="progress-track">
+                <div class="progress-fill" style="width: 64%"></div>
+              </div>
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                "
+              >
+                <div style="display: flex; align-items: center; gap: 8px">
+                  <div class="avatars-overlap">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                  </div>
+                  <span style="font-size: 7px; color: #ffffffcc"
+                    >842 joined</span
+                  >
+                </div>
+                <button class="btn btn-accent btn-sm">Join</button>
+              </div>
+            </div>
+            <div class="section-head" style="margin-top: 20px">
+              <h2>Stories</h2>
+              <a>View all →</a>
+            </div>
+            <div class="grid grid-3">
+              <div class="card" style="padding: 12px">
+                <div
+                  class="placeholder-img"
+                  style="
+                    height: 100px;
+                    border-bottom: 3px solid var(--charcoal);
+                    margin-bottom: 8px;
+                  "
+                ></div>
+                <h4 style="font-size: 9px">Fishing Nets → Totes</h4>
+                <p class="dev-note">Sinag Upcycled</p>
+              </div>
+              <div class="card" style="padding: 12px">
+                <div
+                  class="placeholder-img"
+                  style="
+                    height: 100px;
+                    border-bottom: 3px solid var(--charcoal);
+                    margin-bottom: 8px;
+                  "
+                ></div>
+                <h4 style="font-size: 9px">14 Weavers</h4>
+                <p class="dev-note">Kalikasan Krafts</p>
+              </div>
+              <div class="card" style="padding: 12px">
+                <div
+                  class="placeholder-img"
+                  style="
+                    height: 100px;
+                    border-bottom: 3px solid var(--charcoal);
+                    margin-bottom: 8px;
+                  "
+                ></div>
+                <h4 style="font-size: 9px">Reclaiming Narra</h4>
+                <p class="dev-note">Banig &amp; Bote</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== IMPACT ===== -->
+        <section class="screen" id="impact">
+          <header class="top-header">
+            <div class="brandmark">
+              <div class="mark"></div>
+              <span>ReBayan</span>
+            </div>
+            <div class="top-actions"><div class="avatar"></div></div>
+          </header>
+          <div class="impact-hero">
+            <h1 style="color: var(--white); font-size: 22px">Impact</h1>
+            <p style="color: #ffffffbb; font-size: 9px; max-width: 400px">
+              Real-world change the community has made together.
+            </p>
+            <div class="impact-grid">
+              <div class="impact-metric">
+                <div class="n">1,248 kg</div>
+                <div class="l">Waste Diverted</div>
+              </div>
+              <div class="impact-metric">
+                <div class="n">486</div>
+                <div class="l">Upcycled</div>
+              </div>
+              <div class="impact-metric">
+                <div class="n">127</div>
+                <div class="l">Makers</div>
+              </div>
+              <div class="impact-metric">
+                <div class="n">3,842</div>
+                <div class="l">Transactions</div>
+              </div>
+            </div>
+          </div>
+          <div class="section">
+            <div class="grid grid-2">
+              <div class="chart-card">
+                <h5
+                  style="
+                    font-size: 9px;
+                    text-transform: uppercase;
+                    margin-bottom: 8px;
+                  "
+                >
+                  Waste Over Time
+                </h5>
+                <div class="bars">
+                  <div class="bar" style="height: 35%"></div>
+                  <div class="bar" style="height: 48%"></div>
+                  <div class="bar" style="height: 40%"></div>
+                  <div class="bar" style="height: 62%"></div>
+                  <div class="bar" style="height: 58%"></div>
+                  <div class="bar" style="height: 80%"></div>
+                  <div class="bar" style="height: 100%"></div>
+                </div>
+                <div class="lbl">
+                  <span>Mar</span><span>Apr</span><span>May</span
+                  ><span>Jun</span><span>Jul</span><span>Aug</span
+                  ><span>Sep</span>
+                </div>
+              </div>
+              <div class="chart-card">
+                <h5
+                  style="
+                    font-size: 9px;
+                    text-transform: uppercase;
+                    margin-bottom: 8px;
+                  "
+                >
+                  Makers by Region
+                </h5>
+                <div class="bars">
+                  <div class="bar" style="height: 70%"></div>
+                  <div class="bar" style="height: 45%"></div>
+                  <div class="bar" style="height: 90%"></div>
+                  <div class="bar" style="height: 30%"></div>
+                </div>
+                <div class="lbl">
+                  <span>Bicol</span><span>NCR</span><span>Visayas</span
+                  ><span>Mindanao</span>
+                </div>
+              </div>
+            </div>
+            <div
+              class="card"
+              style="
+                padding: 14px;
+                display: flex;
+                gap: 12px;
+                align-items: center;
+                margin-top: 16px;
+                max-width: 480px;
+              "
+            >
+              <div
+                class="placeholder-img"
+                style="
+                  width: 48px;
+                  height: 48px;
+                  border: 2px solid var(--charcoal);
+                "
+              ></div>
+              <div>
+                <h4 style="font-size: 9px">Parol</h4>
+                <p style="font-size: 8px; color: var(--charcoal-60)">
+                  Diverts
+                  <strong style="color: var(--forest-dark)">0.8 kg</strong>
+                  waste
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== SELLER DASHBOARD ===== -->
+        <section class="screen" id="dashboard">
+          <header class="top-header">
+            <div class="brandmark">
+              <div class="mark"></div>
+              <span>Seller</span>
+            </div>
+            <nav class="top-nav">
+              <a>Dashboard</a><a>Products</a><a>Orders</a><a>Analytics</a>
+            </nav>
+            <div class="top-actions">
+              <button class="btn btn-primary btn-sm">+ Add</button>
+              <div class="avatar"></div>
+            </div>
+          </header>
+          <div class="dash-topcards">
+            <div class="metric-card">
+              <div class="l">Revenue</div>
+              <div class="n">₱48,320</div>
+              <div class="delta">▲ 12%</div>
+            </div>
+            <div class="metric-card">
+              <div class="l">Orders</div>
+              <div class="n">86</div>
+              <div class="delta">▲ 6 today</div>
+            </div>
+            <div class="metric-card">
+              <div class="l">Views</div>
+              <div class="n">3,204</div>
+              <div class="delta">▲ 18%</div>
+            </div>
+            <div class="metric-card">
+              <div class="l">Impact</div>
+              <div class="n">2,480 kg</div>
+              <div class="delta" style="color: var(--charcoal-40)">reused</div>
+            </div>
+          </div>
+          <div class="dash-2col">
+            <div class="chart-card">
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  margin-bottom: 10px;
+                "
+              >
+                <h5 style="font-size: 9px; text-transform: uppercase">
+                  Recent Orders
+                </h5>
+                <a style="font-size: 7px; color: var(--forest)">View all</a>
+              </div>
+              <div class="order-row">
+                <span class="id">#24831</span><span style="flex: 1">Parol</span
+                ><span class="status-pill shipped">Shipped</span
+                ><span>₱850</span>
+              </div>
+              <div class="order-row">
+                <span class="id">#24820</span><span style="flex: 1">Tote</span
+                ><span class="status-pill pending">Prep</span><span>₱480</span>
+              </div>
+              <div class="order-row">
+                <span class="id">#24799</span><span style="flex: 1">Lamp</span
+                ><span class="status-pill done">Done</span><span>₱620</span>
+              </div>
+              <h5
+                style="
+                  font-size: 9px;
+                  text-transform: uppercase;
+                  margin: 14px 0 8px;
+                "
+              >
+                Sales (7d)
+              </h5>
+              <div class="bars">
+                <div class="bar" style="height: 40%"></div>
+                <div class="bar" style="height: 55%"></div>
+                <div class="bar" style="height: 35%"></div>
+                <div class="bar" style="height: 70%"></div>
+                <div class="bar" style="height: 60%"></div>
+                <div class="bar" style="height: 85%"></div>
+                <div class="bar" style="height: 100%"></div>
+              </div>
+              <div class="lbl">
+                <span>M</span><span>T</span><span>W</span><span>T</span
+                ><span>F</span><span>S</span><span>S</span>
+              </div>
+            </div>
+            <div>
+              <div class="chart-card" style="margin-bottom: 12px">
+                <h5
+                  style="
+                    font-size: 9px;
+                    text-transform: uppercase;
+                    margin-bottom: 8px;
+                  "
+                >
+                  Conversion
+                </h5>
+                <div
+                  style="
+                    font-family: var(--font);
+                    font-size: 22px;
+                    color: var(--forest-dark);
+                  "
+                >
+                  6.8%
+                </div>
+                <div class="dev-note">▲ 1.2%</div>
+              </div>
+              <div class="chart-card">
+                <h5
+                  style="
+                    font-size: 9px;
+                    text-transform: uppercase;
+                    margin-bottom: 8px;
+                  "
+                >
+                  Offers
+                </h5>
+                <div class="order-row">
+                  <span style="flex: 1">Ana — Parol</span><span>₱750</span>
+                </div>
+                <div class="order-row">
+                  <span style="flex: 1">J. Ramos — Tote</span><span>₱420</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== MOBILE ===== -->
+        <section class="screen" id="mobile">
+          <div class="mobile-wrap">
+            <div class="phone">
+              <div class="phone-notch"></div>
+              <div class="m-header">
+                <div style="display: flex; align-items: center; gap: 6px">
+                  <div class="mark" style="width: 20px; height: 20px"></div>
+                  <strong style="font-family: var(--font); font-size: 11px"
+                    >ReBayan</strong
+                  >
+                </div>
+                <div style="display: flex; gap: 8px">
+                  <span>🔔</span><span>🛒</span>
+                </div>
+              </div>
+              <div class="m-content">
+                <h2 style="font-size: 16px; margin: 6px 0 2px">
+                  Buy Local.<br />Circular.
+                </h2>
+                <p
+                  style="
+                    font-size: 8px;
+                    color: var(--charcoal-60);
+                    margin-bottom: 10px;
+                  "
+                >
+                  Recycled finds from local makers.
+                </p>
+                <div
+                  class="placeholder-img"
+                  style="
+                    height: 120px;
+                    border: 3px solid var(--charcoal);
+                    margin-bottom: 10px;
+                  "
+                ></div>
+                <div class="m-cat-row">
+                  <div class="m-cat">🏮 Decor</div>
+                  <div class="m-cat">👜 Bags</div>
+                  <div class="m-cat">🪑 Furniture</div>
+                </div>
+                <h5 style="font-size: 9px; margin-bottom: 8px">Trending</h5>
+                <div class="m-pcard">
+                  <div class="img"></div>
+                  <div style="padding: 8px">
+                    <strong style="font-size: 9px">Parol</strong>
+                    <div
+                      style="
+                        display: flex;
+                        justify-content: space-between;
+                        margin-top: 2px;
+                      "
+                    >
+                      <span
+                        style="
+                          font-family: var(--font);
+                          color: var(--forest-dark);
+                        "
+                        >₱850</span
+                      ><span class="stars">★★★★★</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="bottom-nav">
+                <div class="bn-item on"><span>🏠</span>Home</div>
+                <div class="bn-item"><span>🔍</span>Explore</div>
+                <div class="bn-item"><span>➕</span>Sell</div>
+                <div class="bn-item"><span>🌱</span>Community</div>
+                <div class="bn-item"><span>👤</span>Profile</div>
+              </div>
+            </div>
+            <div class="phone">
+              <div class="phone-notch"></div>
+              <div class="m-header">
+                <span>←</span><strong style="font-size: 9px">Product</strong
+                ><span>🤍</span>
+              </div>
+              <div class="m-content" style="padding-bottom: 90px">
+                <div
+                  class="placeholder-img"
+                  style="
+                    height: 180px;
+                    border: 3px solid var(--charcoal);
+                    margin-bottom: 10px;
+                  "
+                ></div>
+                <span class="verified" style="font-size: 8px">✓ Verified</span>
+                <h3 style="font-size: 14px; margin: 4px 0">Parol</h3>
+                <div
+                  style="
+                    font-family: var(--font);
+                    font-size: 18px;
+                    color: var(--forest-dark);
+                    margin-bottom: 8px;
+                  "
+                >
+                  ₱850
+                </div>
+                <div
+                  class="material-story"
+                  style="padding: 10px; border-radius: 0"
+                >
+                  <div class="ms-title" style="font-size: 10px">Material</div>
+                  <div class="txt" style="font-size: 8px">
+                    800g recycled PET
+                  </div>
+                  <div class="ms-impact" style="padding: 6px 10px">
+                    <div class="num" style="font-size: 14px">0.8 kg</div>
+                    <div class="txt2" style="font-size: 7px">
+                      waste diverted
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="sticky-buy">
+                <button class="btn btn-outline btn-sm" style="flex: 1">
+                  Offer</button
+                ><button class="btn btn-primary" style="flex: 1.4">Buy</button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <script>
+      const PRODUCTS = [
+        {
+          name: "Recycled Parol",
+          price: "₱850",
+          loc: "Naga",
+          seller: "Kalikasan",
+          material: "1.2 kg plastic",
+          rating: 5,
+        },
+        {
+          name: "Bottle Cap Tote",
+          price: "₱480",
+          loc: "Iloilo",
+          seller: "Sinag",
+          material: "320 caps",
+          rating: 5,
+        },
+        {
+          name: "Narra Stool",
+          price: "₱1,650",
+          loc: "Cebu",
+          seller: "Banig",
+          material: "Reclaimed wood",
+          rating: 4,
+        },
+        {
+          name: "Denim Sling",
+          price: "₱620",
+          loc: "QC",
+          seller: "Loop",
+          material: "3 pairs denim",
+          rating: 5,
+        },
+        {
+          name: "Bamboo Lamp",
+          price: "₱720",
+          loc: "Naga",
+          seller: "Kalikasan",
+          material: "600g plastic",
+          rating: 5,
+        },
+        {
+          name: "Husk Planters",
+          price: "₱390",
+          loc: "Legazpi",
+          seller: "Lupa",
+          material: "Coconut coir",
+          rating: 4,
+        },
+        {
+          name: "Tetra Clock",
+          price: "₱540",
+          loc: "Davao",
+          seller: "Sinag",
+          material: "14 tetra packs",
+          rating: 5,
+        },
+        {
+          name: "Sack Cushion",
+          price: "₱410",
+          loc: "Naga",
+          seller: "Banig",
+          material: "Rice sack",
+          rating: 4,
+        },
+      ];
+
+      function renderCards(id, items) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.innerHTML = items
+          .map(
+            (p) => `
+        <div class="pcard">
+          <div class="img placeholder-img"><div class="wishlist">🤍</div></div>
+          <div class="body">
+            <div class="rowtop"><h4>${p.name}</h4><span class="price">${p.price}</span></div>
+            <div class="meta">📍 ${p.loc} · ${p.seller} · <span class="stars">${"★".repeat(p.rating)}${"☆".repeat(5 - p.rating)}</span></div>
+            <div class="material-strip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20"/></svg>${p.material}</div>
+          </div>
+        </div>
+      `,
+          )
+          .join("");
+      }
+
+      renderCards("home-products", PRODUCTS.slice(0, 4));
+      renderCards("explore-products", PRODUCTS);
+      renderCards("store-products", PRODUCTS.slice(0, 4));
+
+      // Navigation
+      document.querySelectorAll(".rail-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          document
+            .querySelectorAll(".rail-btn")
+            .forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+          document
+            .querySelectorAll(".screen")
+            .forEach((s) => s.classList.remove("active"));
+          document.getElementById(btn.dataset.screen).classList.add("active");
+          window.scrollTo(0, 0);
+        });
+      });
+
+      // Pills
+      document.querySelectorAll(".trans-pill").forEach((p) => {
+        p.addEventListener("click", () => {
+          document
+            .querySelectorAll(".trans-pill")
+            .forEach((x) => x.classList.remove("on"));
+          p.classList.add("on");
+        });
+      });
+
+      // Payment options
+      document.querySelectorAll(".pay-option").forEach((opt) => {
+        opt.addEventListener("click", () => {
+          const parent = opt.closest(".co-block");
+          if (parent) {
+            parent.querySelectorAll(".pay-option").forEach((o) => {
+              o.classList.remove("on");
+              o.querySelector(".radio")?.classList.remove("on");
+            });
+          }
+          opt.classList.add("on");
+          opt.querySelector(".radio")?.classList.add("on");
+        });
+      });
+
+      // Tabs
+      document.querySelectorAll(".store-tab").forEach((tab) => {
+        tab.addEventListener("click", () => {
+          document
+            .querySelectorAll(".store-tab")
+            .forEach((t) => t.classList.remove("on"));
+          tab.classList.add("on");
+        });
+      });
+
+      // Chat list
+      document.querySelectorAll(".chat-list-item").forEach((item) => {
+        item.addEventListener("click", () => {
+          document
+            .querySelectorAll(".chat-list-item")
+            .forEach((i) => i.classList.remove("active"));
+          item.classList.add("active");
+        });
+      });
+
+      // Steppers
+      document.querySelectorAll(".stepper").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const input = btn.closest(".bid-input")?.querySelector("input");
+          if (!input) return;
+          let val = parseInt(input.value.replace(/[^0-9]/g, "")) || 0;
+          if (btn.textContent === "−") val = Math.max(0, val - 50);
+          else val += 50;
+          input.value = "₱" + val.toLocaleString();
+        });
+      });
+
+      // Wishlist toggle
+      document.querySelectorAll(".wishlist").forEach((w) => {
+        w.addEventListener("click", (e) => {
+          e.stopPropagation();
+          w.classList.toggle("active");
+          w.textContent = w.classList.contains("active") ? "❤️" : "🤍";
+        });
+      });
+
+      // Quick buy feedback
+      document.querySelectorAll(".btn-primary").forEach((btn) => {
+        if (
+          btn.textContent.trim() === "Buy" ||
+          btn.textContent.trim() === "Place Order" ||
+          btn.textContent.trim() === "Buy Now"
+        ) {
+          btn.addEventListener("click", () => {
+            const orig = btn.textContent;
+            btn.textContent = "✓ Done!";
+            btn.style.background = "var(--green)";
+            setTimeout(() => {
+              btn.textContent = orig;
+              btn.style.background = "";
+            }, 1200);
+          });
+        }
+      });
+    </script>
+  </body>
+</html>
